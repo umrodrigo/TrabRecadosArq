@@ -3,6 +3,7 @@ import { User } from "../../domain";
 
 
 export class UserRepository {
+    //Cria novo Usuário
     async create(params: User): Promise<User> {
         const { username, password  } = params;
         const user = await UserEntity.create({
@@ -11,6 +12,7 @@ export class UserRepository {
         }).save();
         return Object.assign({}, params, user);
     };
+    //Busca usuario pelo ID
     async getUser(id: string): Promise<User | undefined> {
         const user = await UserEntity.findOne(id);
         if (!user) return undefined;
@@ -22,6 +24,7 @@ export class UserRepository {
             updatedAt: user.updatedAt,
         }
     }
+    //Busca todos os usuarios
     async getUsers(): Promise<User[]> {
         const users = await UserEntity.find();
         return users.map(
@@ -31,10 +34,19 @@ export class UserRepository {
                     username: user.username,
                     password: user.password,
                     createdAt: user.createdAt,  
-                } as User)
+                } as User),
         );
-    };
-    async login(): Promise<void> {}
-    async updateUser(): Promise<void> {}
-    async deleteUser(): Promise<void> {}
+    };    
+    //Atualiza dados do Usuário
+    async updateUser(id: string, params: User): Promise<void> {
+        const { password } = params;
+        const user = await UserEntity.update(id, {
+            password,
+        });
+        return
+    }
+    //Deleta usuário
+    async deleteUser(id: string) {
+        return await UserEntity.delete(id);
+    }
 }

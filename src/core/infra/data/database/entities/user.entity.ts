@@ -1,6 +1,6 @@
 import { BaseEntity, BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
-//import { Recado } from "./Recado";
+import { NoteEntity } from "./note.entity";
 
 @Entity({name: 'users'})
 export class UserEntity extends BaseEntity {
@@ -19,8 +19,8 @@ export class UserEntity extends BaseEntity {
     @Column({ name: "updated_at" })
     updatedAt!: Date;
 
-    //@OneToMany(() => Recado, (recado) => recado.user)
-    //recado?: Recado[]
+    @OneToMany(() => NoteEntity, (note) => note.user)
+    note?: NoteEntity[]
     
 
     constructor(username: string, password: string) {
@@ -30,7 +30,14 @@ export class UserEntity extends BaseEntity {
     }
 
     @BeforeInsert()
-    criarID() {
+    private criarID() {
         this.id = uuid()
-    }    
+        this.createdAt = new Date(Date.now());
+        this.updatedAt = new Date(Date.now());
+    };
+    
+    @BeforeUpdate()
+    private update() {
+        this.updatedAt = new Date(Date.now());
+    };
 }

@@ -8,8 +8,6 @@ export class UserRepository {
         const user = await UserEntity.create({
             username,
             password,
-            createdAt: Date(),
-            updatedAt: Date(),
         }).save();
         return Object.assign({}, params, user);
     };

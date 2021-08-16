@@ -20,13 +20,13 @@ export class CreateTableNotes1629052055741 implements MigrationInterface {
                         isNullable: false,
                     },
                     {
-                        name: 'descricao',
+                        name: 'description',
                         type: 'varchar',
                         length: '100',
                         isNullable: false,
                     },
                     {
-                        name: "detalhamento",
+                        name: "details",
                         type: 'varchar',
                         length: '200',
                         isNullable: true,

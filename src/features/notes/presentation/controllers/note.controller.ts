@@ -1,16 +1,16 @@
 import { HttpRequest, HttpResponse, MvcController, notFound, ok, serverError } from "../../../../core/presentation";
-import { UserRepository } from "../../infra";
+import { NoteRepository } from "../../infra";
 
-export class UserController implements MvcController {
-    readonly #repository: UserRepository;
+export class NoteController implements MvcController {
+    readonly #repository: NoteRepository;
     //injeção de dependencia // usado na rota
-    constructor(repository: UserRepository) {
+    constructor(repository: NoteRepository) {
         this.#repository = repository;
-    };
+    }
     async store(request: HttpRequest): Promise<HttpResponse> {
         try {
-            const user = await this.#repository.create(request.body);
-            return ok(user);
+            const note = await this.#repository.create(request.params, request.body);
+            return ok(note);
         } catch (error) {
             return serverError();
         };
@@ -18,42 +18,41 @@ export class UserController implements MvcController {
     async update(request: HttpRequest): Promise<HttpResponse> {
         try {
             const id = request.params;
-            const user = await this.#repository.updateUser(id, request.body);
-            return ok(user);
+            const note = await this.#repository.updateNote(id, request.body)
+            return ok(note);
         } catch (error) {
             return serverError();
-        }
+        };
     };
-    async delete(request: HttpRequest): Promise<HttpResponse> {
+    async delete(request: HttpRequest): Promise<HttpResponse> {        
         try {
-            const id = request.params;
-            const user = await this.#repository.deleteUser(id);
-            return ok(user)
+            const note = await this.#repository.noteDelete(request.body);
+            return ok(note)
         } catch (error) {
             return serverError();
-        }
+        };
     };
     async index(request: HttpRequest): Promise<HttpResponse> {
         try {
-            const users = await this.#repository.getUsers();
+            const notes = await this.#repository.getNotes();
 
-            if (users.length === 0) return notFound(new Error());
+            if (notes.length === 0) return notFound(new Error());
 
-            return ok(users);
+            return ok(notes);
         } catch (error) {
             return serverError();
         }
-    };
+    }
     async show(request: HttpRequest): Promise<HttpResponse> {
         try {
             const { id } = request.params;
 
-            const user = await this.#repository.getUser(id);
-            if (!user) return notFound(new Error());
+            const note = await this.#repository.getUserNotes(id);
+            if (!note) return notFound(new Error());
 
-            return ok(user);
+            return ok(note);
         } catch (error) {
             return serverError();
         }
-    };
-};
+    }
+}

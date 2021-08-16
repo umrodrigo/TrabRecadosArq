@@ -1,16 +1,16 @@
 import { BaseEntity, BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UserEntity } from './user.entity';
 
-@Entity({name: 'recados'})
+@Entity({name: 'notes'})
 export class NoteEntity extends BaseEntity {
     @PrimaryGeneratedColumn({ name: 'id'})
     id?: number;
 
-    @Column({ name: 'descricao' })
-    descricao: string;
+    @Column({ name: 'description' })
+    description: string;
 
-    @Column({ name: 'detalhamento' })
-    detalhamento: string;
+    @Column({ name: 'details' })
+    details: string;
 
     @Column({ name: 'user_id'})
     userID: string;
@@ -27,10 +27,10 @@ export class NoteEntity extends BaseEntity {
     
     
 
-    constructor(descricao: string, detalhamento: string, userID:string) {
+    constructor(description: string, details: string, userID:string) {
         super();
-        this.descricao = descricao;
-        this.detalhamento = detalhamento;
+        this.description = description;
+        this.details = details;
         this.userID = userID;
     }
 

@@ -1,0 +1,7 @@
+POST  http://localhost:8080/api/note/5c882810-5514-4866-acf6-ee59f1b53b8f
+Content-Type: application/json
+
+{
+	"description": "title 3",
+	"details": "descrição 3"
+}

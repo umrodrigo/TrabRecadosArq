@@ -1,4 +1,5 @@
 import  express, { Router }  from "express";
+import NoteRoutes from "../../features/notes/presentation/routes/routes";
 import UserRoutes from "../../features/users/presentation/routes/routes";
 
 export class App {
@@ -23,6 +24,7 @@ export class App {
         const router = Router();
         router.get('/', (_, res) => res.json('API ta ON'));
         new UserRoutes().init(router);
+        new NoteRoutes().init(router);
 
         this.#express.use('/api', router);
     }

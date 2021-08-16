@@ -38,13 +38,13 @@ export class UserRepository {
         );
     };    
     //Atualiza dados do Usuário
-    async updateUser(id: string, params: User): Promise<void> {
-        const { password } = params;
+    async updateUser(id: string, params: any ): Promise<User> {
+        const password = params;
         const user = await UserEntity.update(id, {
             password,
         });
-        return
-    }
+        return Object.assign({}, params, user);
+    };
     //Deleta usuário
     async deleteUser(id: string) {
         return await UserEntity.delete(id);

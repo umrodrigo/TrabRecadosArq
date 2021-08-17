@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { CacheRepository } from '../../../../core/infra/repositories/cache.repository';
 import { middlewareAdapter, routeMvcAdapter, TypeActionMvc } from '../../../../core/presentation';
 import { UserIdMiddleware } from '../../../users/presentation/middlewares';
 import { NoteRepository } from '../../infra';
@@ -7,7 +8,8 @@ import { NoteMiddleware } from '../middlewares';
 
 const makeControler = () => { // factory Method
     const repository  =new NoteRepository();
-    return new NoteController(repository);
+    const cache = new CacheRepository();
+    return new NoteController(repository, cache);
 }
 
 export default class NoteRoutes {

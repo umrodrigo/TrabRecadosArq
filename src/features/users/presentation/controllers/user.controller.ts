@@ -45,9 +45,8 @@ export class UserController implements MvcController {
         }
     };
     async show(request: HttpRequest): Promise<HttpResponse> {
-        try {
-            const { id } = request.params;
-
+        const { id } = request.params;
+        try {          
             const user = await this.#repository.getUser(id);
             if (!user) return notFound(new Error());
 

@@ -11,6 +11,7 @@ export const routeMvcAdapter = (
         return async(req: Request, res: Response) => {
             const httpRequest: HttpRequest = {
                 body: req.body,
+                params: req.params,
             };
             let httpResponse: HttpResponse;
 

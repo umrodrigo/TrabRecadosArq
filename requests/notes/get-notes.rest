@@ -1,2 +1,2 @@
-GET  http://localhost:8080/api/note/5c882810-5514-4866-acf6-ee59f1b53b8f
+GET  http://localhost:8080/api/note
 Content-Type: application/json

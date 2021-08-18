@@ -1,7 +1,7 @@
-PUT   http://localhost:8080/api/note/5
+PUT   http://localhost:8080/api/note/1
 Content-Type: application/json
 
 {
-	"description": "title 3",
-	"details": "descrição 3"
+	"description": "ATAT title 3",
+	"details": "haha descrição 3"
 }

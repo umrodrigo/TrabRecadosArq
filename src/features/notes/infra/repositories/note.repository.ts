@@ -46,12 +46,13 @@ export class NoteRepository {
         );
     };
     //atualiza nota
-    async updateNote(id: Note, body: Note ): Promise<void> {
+    async updateNote(id: Note, body: Note ): Promise<Note | undefined> {
         const { description, details } = body;
         const note = await NoteEntity.update(id, {
             description,
             details,
-        } as Note);        
+        } as Note);
+        return Object.assign({}, body, note);
     };
     //deleta recado
     async noteDelete(id: Note) {

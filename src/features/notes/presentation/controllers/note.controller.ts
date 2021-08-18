@@ -1,5 +1,5 @@
 import { CacheRepository } from "../../../../core/infra/repositories/cache.repository";
-import { HttpRequest, HttpResponse, MvcController, notFound, ok, serverError } from "../../../../core/presentation";
+import { HttpRequest, HttpResponse, MissingParamError, MvcController, notFound, ok, serverError } from "../../../../core/presentation";
 import { NoteRepository } from "../../infra";
 
 export class NoteController implements MvcController {
@@ -31,7 +31,7 @@ export class NoteController implements MvcController {
     };
     async delete(request: HttpRequest): Promise<HttpResponse> {        
         try {
-            const note = await this.#repository.noteDelete(request.body);
+            const note = await this.#repository.noteDelete(request.params);
             return ok(note)
         } catch (error) {
             return serverError();
@@ -41,7 +41,7 @@ export class NoteController implements MvcController {
         try {
             const notes = await this.#repository.getNotes();
 
-            if (notes.length === 0) return notFound(new Error());
+            if (notes.length === 0) return notFound(new MissingParamError('Nenhuma nota encontrada.'));
 
             return ok(notes);
         } catch (error) {

@@ -1,4 +1,5 @@
 import  express, { Router }  from "express";
+import cors from "cors";
 import NoteRoutes from "../../features/notes/presentation/routes/routes";
 import UserRoutes from "../../features/users/presentation/routes/routes";
 
@@ -18,6 +19,7 @@ export class App {
     public middlewares(): void {
         this.#express.use(express.json());
         this.#express.use(express.urlencoded({ extended: false }));
+        this.#express.use(cors());
     };
 
     public routes(): void {

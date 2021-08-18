@@ -18,7 +18,7 @@ export default class NoteRoutes {
         router.post('/note/:id', middlewareAdapter(new NoteDescription()), middlewareAdapter(new UserIdMiddleware()), routeMvcAdapter(makeControler(), TypeActionMvc.STORE)); // id do user
         router.get('/note', routeMvcAdapter(makeControler(), TypeActionMvc.INDEX));
         router.get('/note/:id', middlewareAdapter(new UserIdMiddleware()), routeMvcAdapter(makeControler(), TypeActionMvc.SHOW)); // id do user
-        router.put('/note/:id', middlewareAdapter(new NoteDescription()), middlewareAdapter(new NoteId()), routeMvcAdapter(makeControler(), TypeActionMvc.UPDATE));
-        router.delete('/note/:id', middlewareAdapter(new NoteId()), routeMvcAdapter(makeControler(), TypeActionMvc.DELETE));
+        router.put('/note/:id', middlewareAdapter(new NoteDescription()), routeMvcAdapter(makeControler(), TypeActionMvc.UPDATE));
+        router.delete('/note/:id', routeMvcAdapter(makeControler(), TypeActionMvc.DELETE));
     };
 };

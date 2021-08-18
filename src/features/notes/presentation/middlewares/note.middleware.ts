@@ -14,7 +14,7 @@ export class NoteDescription implements Middleware {
 
 export class NoteId implements Middleware {
     async handle(request: HttpRequest): Promise<HttpResponse> {
-        const id: Note = request.params;
+        const { id }: Note = request.params;
         const note = await NoteEntity.findOne(id);
         if (!note) {
             return badRequest(new MissingParamError('A nota não existe.'));                       

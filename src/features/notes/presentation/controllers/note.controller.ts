@@ -13,7 +13,7 @@ export class NoteController implements MvcController {
     async store(request: HttpRequest): Promise<HttpResponse> {
         try {
             const note = await this.#repository.create(request.params, request.body);
-            this.#cache.del(`project:${note.userID}`);
+            this.#cache.del(`note:${note.userID}`);
             return ok(note);
         } catch (error) {
             return serverError();
@@ -22,8 +22,9 @@ export class NoteController implements MvcController {
     async update(request: HttpRequest): Promise<HttpResponse> {
         try {
             const id = request.params;
-            const note = await this.#repository.updateNote(id, request.body)
-            
+            const userID = request.body.userID;
+            const note = await this.#repository.updateNote(id, request.body);
+            this.#cache.del(`note:${userID}`);
             return ok(note);
         } catch (error) {
             return serverError();
@@ -31,7 +32,9 @@ export class NoteController implements MvcController {
     };
     async delete(request: HttpRequest): Promise<HttpResponse> {        
         try {
+            const userID = request.body.userID;
             const note = await this.#repository.noteDelete(request.params);
+            this.#cache.del(`note:${userID}`);
             return ok(note)
         } catch (error) {
             return serverError();
@@ -49,12 +52,12 @@ export class NoteController implements MvcController {
         }
     }
     async show(request: HttpRequest): Promise<HttpResponse> {
+        const { id } = request.params;
         try {
-            const { id } = request.params;
-
+            this.#cache.del(`note:${id}`);
             const cache = await this.#cache.get(`note:${id}`);
             if (cache) {
-                return ok(Object.assign({}, cache, { cache: true }));
+                return ok(Object.assign([], cache));
             };
 
             const note = await this.#repository.getUserNotes(id);

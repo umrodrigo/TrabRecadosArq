@@ -49,4 +49,14 @@ export class UserRepository {
     async deleteUser(id: string) {
         return await UserEntity.delete(id);
     }
-}
+
+    async login(params: User): Promise<any> {
+        const { username, password } = params;
+        const login = await UserEntity.findOne({
+            where: {
+                username, password
+            },
+        });
+        return Object.assign({}, login);
+    };
+};

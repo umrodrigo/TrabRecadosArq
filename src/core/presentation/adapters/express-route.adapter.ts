@@ -31,6 +31,9 @@ export const routeMvcAdapter = (
                 case TypeActionMvc.SHOW: 
                     httpResponse = await controller.show(httpRequest);
                 break;
+                case TypeActionMvc.LOGIN: 
+                    httpResponse = await controller.login(httpRequest);
+                break;
             }
 
             //validação

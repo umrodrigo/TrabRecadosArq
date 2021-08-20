@@ -9,7 +9,7 @@ export class NoteController implements MvcController {
     constructor(repository: NoteRepository, cache: CacheRepository) {
         this.#repository = repository;
         this.#cache = cache;
-    }
+    }    
     async store(request: HttpRequest): Promise<HttpResponse> {
         try {
             const note = await this.#repository.create(request.params, request.body);

@@ -17,6 +17,6 @@ export default class UserRoutes {
         router.get('/users/:id', middlewareAdapter(new UserIdMiddleware()), routeMvcAdapter(makeControler(), TypeActionMvc.SHOW));
         router.put('/users/:id', middlewareAdapter(new UserIdMiddleware()), middlewareAdapter(new UserPasswordMiddleware()), routeMvcAdapter(makeControler(), TypeActionMvc.UPDATE));
         router.delete('/users/:id', middlewareAdapter(new UserIdMiddleware()), routeMvcAdapter(makeControler(), TypeActionMvc.DELETE));
-        
+        router.post('/users/login', routeMvcAdapter(makeControler(),  TypeActionMvc.LOGIN));
     };
 };

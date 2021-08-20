@@ -55,4 +55,14 @@ export class UserController implements MvcController {
             return serverError();
         }
     };
+    async login(request: HttpRequest): Promise<HttpResponse> {        
+        try {          
+            const login = await this.#repository.login(request.body);
+            if (!login) return notFound(new Error());
+
+            return ok(login);
+        } catch (error) {
+            return serverError();
+        }
+    };
 };

@@ -4,4 +4,5 @@ export enum TypeActionMvc {
     DELETE,
     INDEX,
     SHOW,
+    LOGIN,
 }

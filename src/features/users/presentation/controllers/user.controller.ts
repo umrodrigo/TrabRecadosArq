@@ -1,4 +1,4 @@
-import { HttpRequest, HttpResponse, MvcController, notFound, ok, serverError } from "../../../../core/presentation";
+import { HttpRequest, HttpResponse, MissingParamError, MvcController, notFound, ok, serverError } from "../../../../core/presentation";
 import { UserRepository } from "../../infra";
 
 export class UserController implements MvcController {
@@ -58,8 +58,8 @@ export class UserController implements MvcController {
     async login(request: HttpRequest): Promise<HttpResponse> {        
         try {          
             const login = await this.#repository.login(request.body);
-            if (!login) return notFound(new Error());
-
+            if (!login) return notFound(new MissingParamError('Usuario ou Senha inválido'));
+            
             return ok(login);
         } catch (error) {
             return serverError();

@@ -12,10 +12,7 @@ export class UserPasswordMiddleware implements Middleware{
         if (user.password.trim().length < 4) {
             return badRequest(new MissingParamError('A senha deve conter ao menos 4 caracteres.'));
         }
-        if (user.password !== user.password2) {
-            return badRequest(new MissingParamError('As senhas não coincidem, tente novamente.'));
-        }
-        
+
         return ok({});
     }
 }
@@ -39,6 +36,15 @@ export class UserUsernameMiddleware implements Middleware{
         if (user.username.trim().length <= 3) {
             return badRequest(new MissingParamError('Usuário deve conter ao menos 3 caracteres.'));
         }
+             
+        return ok({});
+    }
+}
+
+export class UserCreateMiddleware implements Middleware{
+    async handle(request: HttpRequest): Promise<HttpResponse> {
+        const user: User = request.body; 
+
         let userReal = await UserEntity.findOne({
             where: {
               username: user.username,
@@ -46,7 +52,34 @@ export class UserUsernameMiddleware implements Middleware{
         });
         if (userReal) {      
             return badRequest(new MissingParamError('Usuário existente, tente novamente.'));
-        };        
+        };
+        if (user.password !== user.password2) {
+            return badRequest(new MissingParamError('As senhas não coincidem, tente novamente.'));
+        } 
+        return ok({});
+    }
+}
+export class UserLoginMiddleware implements Middleware{
+    async handle(request: HttpRequest): Promise<HttpResponse> {
+        const user: User = request.body; 
+
+        let userName = await UserEntity.findOne({
+            where: {
+              username: user.username
+            },
+        });
+        let userPassword = await UserEntity.findOne({
+            where: {
+              username: user.username,
+              password: user.password
+            },
+        });
+        if (!userName) {      
+            return badRequest(new MissingParamError('Usuário incorreto, tente novamente.'));
+        } else if (!userPassword) {      
+            return badRequest(new MissingParamError('Senha incorreta, tente novamente.'));
+        };
+        
         return ok({});
     }
 }
